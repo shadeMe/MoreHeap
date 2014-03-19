@@ -5,8 +5,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Wrapper.h" />
+    <ClInclude Include="VersionInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exports.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VersionInfo.rc" />
   </ItemGroup>
 </Project>

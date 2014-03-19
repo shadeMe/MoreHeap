@@ -89,8 +89,7 @@
       <Command>copy "$(TargetPath)" "$(OblivionPath)\Version.dll"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>cscript.exe "$(SolutionDir)\BuildIncrement.jse"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>
@@ -122,8 +121,7 @@
       <Command>copy "$(TargetPath)" "$(OblivionPath)\Version.dll"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>cscript.exe "$(SolutionDir)\BuildIncrement.jse"</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>
@@ -141,10 +139,14 @@
     <ClCompile Include="Wrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="VersionInfo.h" />
     <ClInclude Include="Wrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Exports.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VersionInfo.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

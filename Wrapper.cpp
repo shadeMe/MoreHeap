@@ -14,28 +14,35 @@ void __stdcall IATWrapperProc(LPSTARTUPINFO Info)
 	{
 		DoOnce = true;
 
-		const char* RuntimeHostTest = (const char*)0x00A2FC44;
-		const char* EditorHostTest = (const char*)0x0096EA7C;
+		char CurrentProc[MAX_PATH] = {0};
+		GetModuleFileName(NULL, CurrentProc, sizeof(CurrentProc));
+		char* ProcessName = strrchr(CurrentProc, '\\') + 1;
 
-		if (!_stricmp(RuntimeHostTest, "Main"))
+		if (!_stricmp(ProcessName, "Oblivion.exe") || !_stricmp(ProcessName, "TESConstructionSet.exe"))
 		{
-			// runtime
-			UInt32 DefaultHeap = kRuntimeFormHeapSize.GetData().i;
-			if (DefaultHeap > 1024 || DefaultHeap < 256)
-				DefaultHeap = 256;
+			const char* RuntimeHostTest = (const char*)0x00A2FC44;
+			const char* EditorHostTest = (const char*)0x0096EA7C;
 
-			SME::MemoryHandler::SafeWrite32(0x00A2FC24, DefaultHeap);
-			_MESSAGE("Set runtime heap initial allocation size to %d MB", DefaultHeap);
-		}
-		else if (!_stricmp(EditorHostTest, "Rainy?"))
-		{
-			// editor
-			UInt32 DefaultHeap = kEditorFormHeapSize.GetData().i;
-			if (DefaultHeap > 1024 || DefaultHeap < 256)
-				DefaultHeap = 256;
+			if (!_stricmp(RuntimeHostTest, "Main"))
+			{
+				// runtime
+				UInt32 DefaultHeap = kRuntimeFormHeapSize.GetData().i;
+				if (DefaultHeap > 1024 || DefaultHeap < 256)
+					DefaultHeap = 256;
 
-			SME::MemoryHandler::SafeWrite32(0x0092E4B0, DefaultHeap);
-			_MESSAGE("Set editor heap initial allocation size to %d MB", DefaultHeap);
+				SME::MemoryHandler::SafeWrite32(0x00A2FC24, DefaultHeap);
+				_MESSAGE("Set runtime heap initial allocation size to %d MB", DefaultHeap);
+			}
+			else if (!_stricmp(EditorHostTest, "Rainy?"))
+			{
+				// editor
+				UInt32 DefaultHeap = kEditorFormHeapSize.GetData().i;
+				if (DefaultHeap > 1024 || DefaultHeap < 256)
+					DefaultHeap = 256;
+
+				SME::MemoryHandler::SafeWrite32(0x0092E4B0, DefaultHeap);
+				_MESSAGE("Set editor heap initial allocation size to %d MB", DefaultHeap);
+			}
 		}
 		else
 		{
